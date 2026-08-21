@@ -21,7 +21,7 @@ export default function InfiniteMarquee({
   children,
   direction = "left",
   speed = "normal",
-  pauseOnHover = true,
+  pauseOnHover = false,
   className,
   itemClassName,
   separator = "◆",
@@ -37,16 +37,15 @@ export default function InfiniteMarquee({
       ? "animate-marquee-slow"
       : "animate-marquee";
 
-  const bg = dark ? "var(--hr-ink)" : "var(--hr-paper)";
-  const fromColor = dark ? bg + "cc" : bg;
+  const bg = dark ? "#000000" : "transparent";
 
   return (
     <div
       className={cn(
-        "relative overflow-hidden w-full select-none marquee-container",
+        "relative overflow-hidden w-full select-none marquee-container pointer-events-none",
         className
       )}
-      style={{ backgroundColor: dark ? "var(--hr-ink)" : "transparent" }}
+      style={{ backgroundColor: dark ? "#000000" : "transparent" }}
     >
       {/* Side Fade Gradients */}
       {withGradients && (
@@ -69,8 +68,7 @@ export default function InfiniteMarquee({
       <div
         className={cn(
           "flex gap-0 items-center whitespace-nowrap",
-          animClass,
-          pauseOnHover && "hover:[animation-play-state:paused]"
+          animClass
         )}
       >
         {/* Set 1 */}
@@ -87,7 +85,7 @@ export default function InfiniteMarquee({
 
 function renderItems(
   items?: InfiniteMarqueeProps["items"],
-  separator = "◆",
+  separator = ".",
   dark = false,
   className?: string
 ) {
@@ -99,21 +97,19 @@ function renderItems(
           <span
             className={cn(
               "inline-flex items-center px-6 py-0 text-sm font-medium tracking-wide",
-              dark ? "text-[var(--hr-paper)]" : "text-[var(--hr-ink)]",
-              className
+              className ? className : dark ? "text-white" : "text-slate-900"
             )}
             style={{
-              fontFamily: "Fraunces, Georgia, serif",
-              opacity: dark ? 0.85 : 0.85,
+              opacity: dark ? 1 : 0.85,
             }}
           >
             {item.text}
           </span>
           <span
-            className="mx-1 text-xs"
+            className="mx-2 text-xs inline-block"
             style={{
-              color: item.accentColor || (dark ? "var(--hr-coral)" : "var(--hr-coral)"),
-              opacity: 0.8,
+              color: item.accentColor || (dark ? "#fff" : "var(--hr-coral)"),
+              opacity: 0.9,
             }}
           >
             {separator}

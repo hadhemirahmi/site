@@ -40,13 +40,13 @@ export default function ContactForm() {
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ["#e84c30", "#2d9c6b", "#7c4fff", "#f4a261"],
+        colors: ["#0f172a", "#10b981", "#3b82f6", "#f59e0b"],
       });
     }, 800);
   };
 
   return (
-    <div className="paper-card p-6 md:p-8 relative overflow-hidden">
+    <div className="relative">
       <AnimatePresence mode="wait">
         {status === "success" ? (
           <motion.div
@@ -55,25 +55,15 @@ export default function ContactForm() {
             exit={{ opacity: 0, scale: 0.95 }}
             className="py-12 text-center space-y-4"
           >
-            <div
-              className="w-16 h-16 rounded-full flex items-center justify-center mx-auto shadow-lg"
-              style={{
-                backgroundColor: "color-mix(in oklab, var(--hr-acid) 15%, transparent)",
-                color: "var(--hr-acid)",
-                border: "1px solid color-mix(in oklab, var(--hr-acid) 30%, transparent)",
-              }}
-            >
+            <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
               <CheckCircle2 className="w-8 h-8" />
             </div>
-            <h3
-              className="text-2xl sm:text-3xl font-bold"
-              style={{ fontFamily: "Fraunces, Georgia, serif", color: "var(--hr-ink)" }}
-            >
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
               Message envoyé avec succès !
             </h3>
-            <p className="text-sm max-w-md mx-auto leading-relaxed" style={{ color: "var(--hr-muted)" }}>
+            <p className="text-sm max-w-md mx-auto leading-relaxed text-slate-500 font-medium">
               Merci pour votre message. Je vous répondrai dans les plus brefs délais à l&apos;adresse{" "}
-              <span className="font-mono font-semibold" style={{ color: "var(--hr-coral)" }}>
+              <span className="font-mono font-bold text-slate-900">
                 {formData.email}
               </span>
               .
@@ -88,34 +78,24 @@ export default function ContactForm() {
                   message: "",
                 });
               }}
-              className="btn-outline text-xs mt-4"
+              className="pill-button mt-4"
             >
               Envoyer un autre message
             </button>
           </motion.div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-1 pb-2 border-b" style={{ borderColor: "color-mix(in oklab, var(--hr-ink) 8%, transparent)" }}>
-              <h3
-                className="text-xl sm:text-2xl font-bold"
-                style={{ fontFamily: "Fraunces, Georgia, serif", color: "var(--hr-ink)" }}
-              >
+            <div className="space-y-1 pb-3 border-b border-slate-100">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                 Envoyer un Message
               </h3>
-              <p className="text-xs" style={{ color: "var(--hr-muted)" }}>
-                Remplissez ce formulaire et je vous réponds sous 24h.
+              <p className="text-xs text-slate-500 font-medium">
+                Remplissez ce formulaire et je vous répondrai sous 24h.
               </p>
             </div>
 
             {status === "error" && (
-              <div
-                className="flex items-center gap-2 p-3 rounded-xl text-xs font-medium"
-                style={{
-                  backgroundColor: "rgba(220, 38, 38, 0.1)",
-                  border: "1px solid rgba(220, 38, 38, 0.2)",
-                  color: "#dc2626",
-                }}
-              >
+              <div className="flex items-center gap-2 p-3.5 rounded-xl text-xs font-medium bg-red-50 border border-red-200 text-red-700">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{errorMessage}</span>
               </div>
@@ -124,8 +104,8 @@ export default function ContactForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Nom */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5" style={{ color: "var(--hr-ink)" }}>
-                  <User className="w-3.5 h-3.5" style={{ color: "var(--hr-coral)" }} />
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-slate-900" />
                   Votre Nom *
                 </label>
                 <input
@@ -133,20 +113,15 @@ export default function ContactForm() {
                   placeholder="ex: Jean Dupont"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
-                  style={{
-                    backgroundColor: "var(--hr-paper-light)",
-                    border: "1px solid color-mix(in oklab, var(--hr-ink) 12%, transparent)",
-                    color: "var(--hr-ink)",
-                  }}
+                  className="w-full px-4 py-3 rounded-2xl text-sm outline-none transition bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
                   required
                 />
               </div>
 
               {/* Email */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5" style={{ color: "var(--hr-ink)" }}>
-                  <Mail className="w-3.5 h-3.5" style={{ color: "var(--hr-coral)" }} />
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-slate-900" />
                   Votre Email *
                 </label>
                 <input
@@ -154,12 +129,7 @@ export default function ContactForm() {
                   placeholder="ex: contact@entreprise.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
-                  style={{
-                    backgroundColor: "var(--hr-paper-light)",
-                    border: "1px solid color-mix(in oklab, var(--hr-ink) 12%, transparent)",
-                    color: "var(--hr-ink)",
-                  }}
+                  className="w-full px-4 py-3 rounded-2xl text-sm outline-none transition bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
                   required
                 />
               </div>
@@ -167,19 +137,14 @@ export default function ContactForm() {
 
             {/* Sujet */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5" style={{ color: "var(--hr-ink)" }}>
-                <Sparkles className="w-3.5 h-3.5" style={{ color: "var(--hr-acid)" }} />
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-slate-900" />
                 Objet du message
               </label>
               <select
                 value={formData.subject}
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all cursor-pointer"
-                style={{
-                  backgroundColor: "var(--hr-paper-light)",
-                  border: "1px solid color-mix(in oklab, var(--hr-ink) 12%, transparent)",
-                  color: "var(--hr-ink)",
-                }}
+                className="w-full px-4 py-3 rounded-2xl text-sm outline-none transition bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 cursor-pointer"
               >
                 <option value="Proposition de projet / Opportunité">Opportunité professionnelle / Emploi</option>
                 <option value="Proposition de stage Full-Stack">Stage PFE / Professionnel</option>
@@ -191,11 +156,11 @@ export default function ContactForm() {
             {/* Message */}
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
-                <label className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5" style={{ color: "var(--hr-ink)" }}>
-                  <MessageSquare className="w-3.5 h-3.5" style={{ color: "var(--hr-coral)" }} />
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                  <MessageSquare className="w-3.5 h-3.5 text-slate-900" />
                   Votre Message *
                 </label>
-                <span className="text-[11px] font-mono" style={{ color: "var(--hr-muted)" }}>
+                <span className="text-[11px] font-mono text-slate-400">
                   {formData.message.length}/1000
                 </span>
               </div>
@@ -205,12 +170,7 @@ export default function ContactForm() {
                 value={formData.message}
                 maxLength={1000}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all resize-none"
-                style={{
-                  backgroundColor: "var(--hr-paper-light)",
-                  border: "1px solid color-mix(in oklab, var(--hr-ink) 12%, transparent)",
-                  color: "var(--hr-ink)",
-                }}
+                className="w-full px-4 py-3 rounded-2xl text-sm outline-none transition bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 resize-none"
                 required
               />
             </div>
@@ -219,7 +179,7 @@ export default function ContactForm() {
             <button
               type="submit"
               disabled={status === "submitting"}
-              className="btn-coral w-full flex items-center justify-center gap-2 text-sm disabled:opacity-50 py-3.5"
+              className="w-full flex items-center justify-center gap-2 text-sm font-bold py-3.5 rounded-full bg-slate-900 text-white hover:bg-slate-800 transition disabled:opacity-50 shadow-md cursor-pointer"
             >
               {status === "submitting" ? (
                 <>
