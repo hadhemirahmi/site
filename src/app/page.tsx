@@ -36,7 +36,7 @@ import {
   Flame,
   CheckCircle2
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { PORTFOLIO_DATA, Project } from "@/data/portfolio";
 import ContactForm from "@/components/ContactForm";
 import ProjectModal from "@/components/ProjectModal";
@@ -48,6 +48,7 @@ import {
   SiCplusplus,
   SiAngular,
   SiReact,
+  SiNextdotjs,
   SiTypescript,
   SiJavascript,
   SiNodedotjs,
@@ -103,9 +104,10 @@ const SKILL_GROUPS_6 = [
     badgeColor: "bg-blue-50 text-blue-800",
     description: "Écosystèmes complets pour le développement Web moderne, Backend & Mobile.",
     skills: [
+      { name: "Next.js 15 (App Router)", level: 92, icon: SiNextdotjs, color: "#000000", bg: "#f8fafc" },
       { name: "ASP.NET Core 8", level: 88, icon: SiDotnet, color: "#512BD4", bg: "#f3f0ff" },
       { name: "Angular 17+", level: 88, icon: SiAngular, color: "#DD0031", bg: "#fef2f2" },
-      { name: "React.js & Next.js", level: 92, icon: SiReact, color: "#087ea4", bg: "#f0f9ff" },
+      { name: "React.js", level: 92, icon: SiReact, color: "#087ea4", bg: "#f0f9ff" },
       { name: "React Native", level: 90, icon: SiReact, color: "#087ea4", bg: "#f0f9ff" },
       { name: "Node.js & Express", level: 88, icon: SiNodedotjs, color: "#339933", bg: "#f0fdf4" },
       { name: "Flutter", level: 80, icon: SiFlutter, color: "#02569B", bg: "#f0f9ff" },
@@ -178,27 +180,38 @@ const SKILL_GROUPS_6 = [
   }
 ];
 
-// Code symbols and tokens floating across the page
+// Code symbols and tokens floating across the page with smooth animations
 const FLOATING_CODE_SYMBOLS = [
-  { text: "</>", top: "6%", left: "4%", size: "text-2xl", duration: 16, delay: 0 },
-  { text: "{ ... }", top: "14%", right: "6%", size: "text-xl", duration: 20, delay: 1 },
-  { text: "const app = async () =>", top: "24%", left: "8%", size: "text-xs", duration: 22, delay: 2 },
-  { text: "<div>", top: "32%", right: "5%", size: "text-sm", duration: 18, delay: 3 },
-  { text: "SELECT * FROM users", top: "42%", left: "3%", size: "text-xs", duration: 24, delay: 0.5 },
-  { text: "[].map(item => )", top: "48%", right: "8%", size: "text-xs", duration: 19, delay: 1.5 },
-  { text: "git push origin main", top: "58%", left: "5%", size: "text-xs", duration: 21, delay: 4 },
-  { text: "Task<IActionResult>", top: "66%", right: "4%", size: "text-xs", duration: 23, delay: 2.5 },
-  { text: "=>", top: "74%", left: "7%", size: "text-3xl", duration: 17, delay: 1 },
-  { text: "docker run -d -p 80:80", top: "82%", right: "7%", size: "text-xs", duration: 20, delay: 3.5 },
-  { text: "<Component />", top: "88%", left: "4%", size: "text-sm", duration: 19, delay: 2 },
-  { text: "01011001", top: "95%", right: "6%", size: "text-xs", duration: 25, delay: 0 },
-  { text: "npm i @latest", top: "18%", left: "90%", size: "text-xs", duration: 18, delay: 4 },
-  { text: "#!/usr/bin/env", top: "52%", left: "92%", size: "text-xs", duration: 22, delay: 5 },
+  { text: "</>", top: "4%", left: "3%", size: "text-2xl sm:text-3xl", duration: 12, delay: 0 },
+  { text: "{ ... }", top: "10%", right: "5%", size: "text-xl sm:text-2xl", duration: 14, delay: 1 },
+  { text: "const app = async () =>", top: "18%", left: "6%", size: "text-xs sm:text-sm", duration: 16, delay: 2 },
+  { text: "<div>", top: "26%", right: "7%", size: "text-sm sm:text-base", duration: 13, delay: 0.5 },
+  { text: "SELECT * FROM users;", top: "34%", left: "4%", size: "text-xs sm:text-sm", duration: 18, delay: 3 },
+  { text: "[].map(item => )", top: "42%", right: "4%", size: "text-xs sm:text-sm", duration: 15, delay: 1.5 },
+  { text: "git commit -m 'feat: live'", top: "50%", left: "5%", size: "text-xs sm:text-sm", duration: 17, delay: 4 },
+  { text: "Task<IActionResult>", top: "58%", right: "6%", size: "text-xs sm:text-sm", duration: 16, delay: 2.5 },
+  { text: "=>", top: "66%", left: "6%", size: "text-2xl sm:text-4xl", duration: 11, delay: 1 },
+  { text: "docker-compose up -d", top: "74%", right: "5%", size: "text-xs sm:text-sm", duration: 15, delay: 3.5 },
+  { text: "<Component />", top: "82%", left: "4%", size: "text-sm sm:text-base", duration: 14, delay: 2 },
+  { text: "01011001", top: "90%", right: "7%", size: "text-xs sm:text-sm", duration: 19, delay: 0 },
+  { text: "npm i @next/core", top: "14%", left: "85%", size: "text-xs sm:text-sm", duration: 14, delay: 4 },
+  { text: "status: 200 OK", top: "38%", left: "88%", size: "text-xs sm:text-sm", duration: 16, delay: 1 },
+  { text: "export default", top: "62%", left: "90%", size: "text-xs sm:text-sm", duration: 15, delay: 2 },
+  { text: "useEffect(() => {}, [])", top: "78%", left: "87%", size: "text-xs sm:text-sm", duration: 17, delay: 5 },
+  { text: "#!/usr/bin/env node", top: "94%", left: "10%", size: "text-xs sm:text-sm", duration: 18, delay: 3 },
 ];
 
 export default function BehanceWhitePortfolio() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("Tous");
+
+  // Scroll Progress Bar
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   // Carousel state for bottom hero strip (matching Behance Screenshot 1)
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -231,6 +244,12 @@ export default function BehanceWhitePortfolio() {
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-slate-900 selection:text-white relative overflow-x-hidden">
 
+      {/* Top Scroll Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-slate-900 via-amber-500 to-slate-900 origin-left z-50 pointer-events-none"
+        style={{ scaleX }}
+      />
+
       {/* ══════════════════════════════════════════════════════════════════
           ANIMATED FLOATING CODE SYMBOLS & TOKENS (GLOBAL BACKGROUND)
       ══════════════════════════════════════════════════════════════════ */}
@@ -238,12 +257,12 @@ export default function BehanceWhitePortfolio() {
         {FLOATING_CODE_SYMBOLS.map((sym, i) => (
           <motion.div
             key={i}
-            initial={{ y: 0, opacity: 0.12 }}
+            initial={{ y: 0, opacity: 0.18 }}
             animate={{
-              y: [-15, 15, -15],
-              x: [-10, 10, -10],
-              opacity: [0.12, 0.28, 0.12],
-              rotate: [-4, 4, -4],
+              y: [-25, 25, -25],
+              x: [-15, 15, -15],
+              opacity: [0.15, 0.4, 0.15],
+              rotate: [-6, 6, -6],
             }}
             transition={{
               duration: sym.duration,
@@ -251,7 +270,7 @@ export default function BehanceWhitePortfolio() {
               ease: "easeInOut",
               delay: sym.delay,
             }}
-            className={`absolute font-mono font-bold tracking-wider text-slate-400/70 select-none ${sym.size}`}
+            className={`absolute font-mono font-black tracking-wider text-slate-500/80 select-none ${sym.size}`}
             style={{
               top: sym.top,
               left: sym.left,
@@ -653,506 +672,151 @@ export default function BehanceWhitePortfolio() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
-          4. SECTION PROJETS & ANNEAUX ORBITAUX (BEHANCE SCREENSHOT 2)
+          4. SECTION PROJETS RÉALISÉS (DESIGN ÉPURÉ & MODERNE)
       ══════════════════════════════════════════════════════════════════ */}
-      <section id="projects" className="relative py-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
+      <section id="projects" className="relative py-28 px-4 sm:px-8 lg:px-14 border-t border-slate-100 overflow-hidden bg-transparent">
+        {/* Background radial glow */}
+        <div className="absolute top-[40%] right-[-10%] w-[350px] h-[350px] bg-slate-200/40 rounded-full blur-[140px] pointer-events-none" />
 
-        {/* Background Orbital Rings Geometric Overlay */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-          {/* Orbital Circle 1 - Top Center */}
-          <div
-            className="orbital-track"
-            style={{
-              width: "900px",
-              height: "900px",
-              top: "10%",
-              left: "50%",
-              transform: "translateX(-50%)",
-              borderColor: "rgba(226, 232, 240, 0.9)",
-            }}
-          />
-          {/* Orbital Circle 2 - Bottom Right */}
-          <div
-            className="orbital-track"
-            style={{
-              width: "1100px",
-              height: "1100px",
-              top: "45%",
-              right: "-20%",
-              borderColor: "rgba(226, 232, 240, 0.8)",
-            }}
-          />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto">
-          {/* Section Header & Category Filters */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
-            <div className="space-y-3 max-w-xl">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-slate-900" />
-                <span className="font-mono text-xs uppercase tracking-[0.2em] text-slate-400 font-bold">
-                  04 / Réalisations & Systèmes
-                </span>
-              </div>
-              <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-slate-900">
-                Projets Phares
+        <div className="max-w-7xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6"
+          >
+            <div>
+              <span className="text-xs font-mono text-slate-500 uppercase tracking-widest font-bold">04 / Réalisations</span>
+              <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-slate-900 mb-2 mt-2">
+                Projets <span className="italic font-editorial-serif font-normal text-slate-700">Réalisés</span>
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
-                Applications complètes .NET, Angular, React Native et architectures d&apos;intelligence artificielle.
+              <p className="text-slate-600 font-mono text-sm max-w-lg">
+                Une sélection de travaux illustrant mon approche de l&apos;architecture logicielle, du web et du mobile.
               </p>
             </div>
+            <a 
+              href="https://github.com/hadhemirahmi" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="text-sm font-mono text-slate-900 font-bold hover:underline underline-offset-4 flex items-center gap-2 transition-colors duration-300"
+            >
+              Voir tout sur GitHub <Github className="w-4 h-4" />
+            </a>
+          </motion.div>
 
-            {/* Category Filter Pills */}
-            <div className="flex flex-wrap gap-1.5 p-1.5 rounded-full border border-slate-200 bg-slate-50 shadow-xs">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-4 sm:px-5 py-2 rounded-full text-xs font-mono transition-all duration-200 ${activeCategory === cat
-                      ? "bg-slate-900 text-white font-bold shadow-sm"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-white"
-                    }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* ══════════════════════════════════════════════════════════
-              SHOWCASE 1: ECOTRACK MOBILE (KANA MASTER BENTO STYLE)
-          ══════════════════════════════════════════════════════════ */}
-          <div className="space-y-36">
-
-            {/* Project Item 1 */}
-            {filteredProjects.find(p => p.id === "ecotrack") && (() => {
-              const p = filteredProjects.find(p => p.id === "ecotrack")!;
-              return (
-                <div key={p.id} className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
-                  {/* Left Side: Organic Multi-Card Bento Collage */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="lg:col-span-7 relative"
-                  >
-                    <div className="relative p-6 sm:p-8 rounded-[3rem] bg-slate-50/90 border border-slate-200/90 shadow-lg">
-
-                      {/* Floating Orbital Node with Arrow */}
-                      <button
-                        onClick={() => setSelectedProject(p)}
-                        className="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-white border border-slate-200 shadow-md flex items-center justify-center text-slate-900 hover:scale-110 hover:bg-slate-900 hover:text-white transition z-20"
-                        title="Ouvrir le projet"
-                      >
-                        <ArrowUpRight className="w-5 h-5" />
-                      </button>
-
-                      {/* Main Image Grid / Bento Collage */}
-                      <div className="grid grid-cols-12 gap-4 items-stretch">
-                        {/* Left Card: Thumbnail & Carbon KPI */}
-                        <div className="col-span-4 flex flex-col justify-between gap-4">
-                          <div className="relative h-32 rounded-2xl overflow-hidden bg-white border border-slate-200">
-                            <Image
-                              src="/projects/ecotrack.jpg"
-                              alt="EcoTrack Thumbnail"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-center">
-                            <div className="flex items-center gap-1.5 text-emerald-600 mb-1">
-                              <Sparkles className="w-4 h-4" />
-                              <span className="text-[10px] font-mono font-bold uppercase">Impact CO2</span>
-                            </div>
-                            <span className="text-xl font-black text-slate-900">-45%</span>
-                            <span className="text-[10px] text-slate-500 font-medium">Bilan écoresponsable</span>
-                          </div>
-                        </div>
-
-                        {/* Right Card: Main Mobile App Preview */}
-                        <div className="col-span-8 relative h-64 sm:h-80 rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-sm cursor-pointer group" onClick={() => setSelectedProject(p)}>
-                          <Image
-                            src="/projects/ecotrack.jpg"
-                            alt="EcoTrack App Preview"
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-700"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
-                          <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white">
-                            <span className="text-xs font-mono font-bold bg-slate-900/80 px-3 py-1 rounded-full backdrop-blur-xs">
-                              React Native + Redux
-                            </span>
-                            <span className="text-xs font-mono underline">Détails →</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Right Side: Editorial Info & Action Buttons */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="lg:col-span-5 space-y-6"
-                  >
-                    <div>
-                      <span className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400">
-                        {p.category}
-                      </span>
-                      <h3 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-1">
-                        {p.title}
-                      </h3>
-                    </div>
-
-                    {/* Tech Stack Pills */}
-                    <div className="flex flex-wrap gap-2">
-                      {p.tags.map((tag) => (
-                        <span key={tag} className="pill-tag">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Editorial Description with Highlights */}
-                    <p className="text-sm sm:text-base leading-relaxed text-slate-600 font-medium">
-                      EcoTrack est une <strong className="text-slate-900 font-bold">application mobile complète</strong> développée avec React Native, Express.js et MongoDB pour encourager les gestes durables, suivre l&apos;empreinte carbone et relever des défis environnementaux.
-                    </p>
-
-                    <p className="text-xs sm:text-sm leading-relaxed text-slate-500">
-                      L&apos;application intègre un <strong className="text-slate-800">moteur de calcul d&apos;émissions de CO2 en direct</strong>, un système de badges de gamification et une architecture REST sécurisée par JWT.
-                    </p>
-
-                    {/* Action Circular Buttons (Behance Style) */}
-                    <div className="flex items-center gap-4 pt-4">
-                      <button
-                        onClick={() => setSelectedProject(p)}
-                        className="pill-button-dark"
-                      >
-                        <span>Découvrir l&apos;architecture</span>
-                        <ArrowUpRight className="w-4 h-4" />
-                      </button>
-
-                      {p.githubUrl && (
-                        <a
-                          href={p.githubUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="w-11 h-11 rounded-full border border-slate-200 bg-white hover:bg-slate-100 flex items-center justify-center text-slate-900 transition shadow-xs"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+            {[
+              {
+                title: "BloodConnect",
+                description: "Plateforme médicale connectant les donneurs de sang et les centres hospitaliers en temps réel. Permet aux donneurs de s'inscrire et aux hôpitaux de signaler des urgences avec groupe sanguin et localisation.",
+                image: "/images/bloodconnect.png",
+                tags: ["Python", "Django", "SQLite", "HTML/CSS", "JavaScript"],
+                github: "https://github.com/hadhemirahmi/BloodConnect",
+                demo: "https://hadhemi.pythonanywhere.com/"
+              },
+              {
+                title: "movieForja",
+                description: "Application web de découverte de films permettant de rechercher, consulter et mettre en favoris des films populaires. Interface intuitive avec mode sombre et système d'authentification.",
+                image: "/images/simplemovies.png",
+                tags: ["React", "HTML/CSS", "JavaScript", "API TMDB"],
+                github: "https://github.com/hadhemirahmi/movie",
+                demo: "https://movieforja.netlify.app/"
+              },
+              {
+                title: "GreenLife",
+                description: "Application innovante qui transforme vos choix quotidiens en un impact positif mesurable pour la planète. Sensibilisation environnementale avec suivi de l'empreinte carbone.",
+                image: "/images/greenlife.png",
+                tags: ["React Native", "JavaScript", "TypeScript", "MongoDB", "Node.js", "Express.js"],
+                github: "https://github.com/hadhemirahmi/stage",
+                demo: "https://greenlifehadh.netlify.app/"
+              },
+              {
+                title: "Motorz.tn",
+                description: "Plateforme moderne de vente et de location de véhicules en Tunisie avec catalogue interactif et filtres personnalisés.",
+                image: "/images/motorz.png",
+                tags: ["React.js", "Material UI", "JavaScript", "REST API"],
+                github: "https://github.com/hadhemirahmi/voiture",
+                demo: "https://voiture-production.up.railway.app/"
+              }
+            ].map((project, index) => (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="group bg-white/90 border border-slate-200/80 shadow-sm backdrop-blur-md rounded-3xl p-6 hover:border-slate-400/60 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 flex flex-col h-full justify-between"
+              >
+                <div>
+                  {/* Project Image Frame with overlays */}
+                  <div className="relative aspect-video rounded-2xl overflow-hidden mb-6 border border-slate-200/80 group-hover:border-slate-300 transition-all duration-500 shadow-sm bg-slate-50">
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      className="w-full h-full object-cover transform group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                    />
+                    
+                    {/* Glassmorphic hover actions panel */}
+                    <div className="absolute inset-0 z-20 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-slate-900/40 backdrop-blur-xs">
+                      {project.github && (
+                        <a 
+                          href={project.github} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="p-3.5 rounded-full bg-white hover:bg-slate-900 hover:text-white border border-slate-200 text-slate-900 transition-all duration-300 transform scale-90 group-hover:scale-100 cursor-pointer shadow-lg"
                           title="Code GitHub"
                         >
-                          <Github className="w-4 h-4" />
+                          <Github className="w-5 h-5" />
                         </a>
                       )}
-                    </div>
-                  </motion.div>
-                </div>
-              );
-            })()}
-
-            {/* ══════════════════════════════════════════════════════════
-                SHOWCASE 2: AETHERIA AI STUDIO (ANIME SENTRY STYLE)
-            ══════════════════════════════════════════════════════════ */}
-            {filteredProjects.find(p => p.id === "ai-prompt-studio") && (() => {
-              const p = filteredProjects.find(p => p.id === "ai-prompt-studio")!;
-              return (
-                <div key={p.id} className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
-                  {/* Left Side: Info & Structured Feature Bullets */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="lg:col-span-5 space-y-6 order-2 lg:order-1"
-                  >
-                    <div>
-                      <span className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400">
-                        {p.category}
-                      </span>
-                      <h3 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-1">
-                        {p.title}
-                      </h3>
-                    </div>
-
-                    {/* Tech Stack Pills */}
-                    <div className="flex flex-wrap gap-2">
-                      {p.tags.map((tag) => (
-                        <span key={tag} className="pill-tag">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <p className="text-sm sm:text-base leading-relaxed text-slate-600 font-medium">
-                      Plateforme d&apos;expérimentation et d&apos;évaluation de prompts IA connectée à des API REST d&apos;intelligence artificielle générative avec banc de test en direct.
-                    </p>
-
-                    {/* Structured Feature Bullet Points (Behance Style) */}
-                    <div className="space-y-2.5 pt-2">
-                      <div className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
-                        Fonctionnalités Clés :
-                      </div>
-                      <ul className="space-y-2">
-                        <li className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                          <span>Playground avec injection de variables et curseurs de créativité.</span>
-                        </li>
-                        <li className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                          <span>Comparateur de réponses côte à côte et monitoring de latence.</span>
-                        </li>
-                        <li className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                          <span>Export instantané de requêtes en Python, PHP, JS et cURL.</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex items-center gap-4 pt-4">
-                      <button
-                        onClick={() => setSelectedProject(p)}
-                        className="pill-button-dark"
-                      >
-                        <span>Voir les détails</span>
-                        <ArrowUpRight className="w-4 h-4" />
-                      </button>
-
-                      {p.githubUrl && (
-                        <a
-                          href={p.githubUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="w-11 h-11 rounded-full border border-slate-200 bg-white hover:bg-slate-100 flex items-center justify-center text-slate-900 transition shadow-xs"
-                          title="Code GitHub"
+                      {project.demo && (
+                        <a 
+                          href={project.demo} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="p-3.5 rounded-full bg-white hover:bg-slate-900 hover:text-white border border-slate-200 text-slate-900 transition-all duration-300 transform scale-90 group-hover:scale-100 cursor-pointer shadow-lg"
+                          title="Démo en direct"
                         >
-                          <Github className="w-4 h-4" />
+                          <ExternalLink className="w-5 h-5" />
                         </a>
                       )}
-                    </div>
-                  </motion.div>
-
-                  {/* Right Side: Organic Multi-Card Bento Collage */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="lg:col-span-7 relative order-1 lg:order-2"
-                  >
-                    <div className="relative p-6 sm:p-8 rounded-[3rem] bg-slate-50/90 border border-slate-200/90 shadow-lg">
-
-                      {/* Floating Orbital Node */}
-                      <button
-                        onClick={() => setSelectedProject(p)}
-                        className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-white border border-slate-200 shadow-md flex items-center justify-center text-slate-900 hover:scale-110 hover:bg-slate-900 hover:text-white transition z-20"
-                        title="Ouvrir le projet"
-                      >
-                        <ArrowUpRight className="w-5 h-5" />
-                      </button>
-
-                      {/* Main Collage Layout */}
-                      <div className="grid grid-cols-12 gap-4 items-stretch">
-                        {/* Main Wide Card */}
-                        <div className="col-span-8 relative h-64 sm:h-80 rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-sm cursor-pointer group" onClick={() => setSelectedProject(p)}>
-                          <Image
-                            src="/projects/ai_studio.jpg"
-                            alt="Aetheria AI Studio"
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-700"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
-                          <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white">
-                            <span className="text-xs font-mono font-bold bg-slate-900/80 px-3 py-1 rounded-full backdrop-blur-xs">
-                              Prompt Testing & Latency Bench
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Right Detail Cards */}
-                        <div className="col-span-4 flex flex-col justify-between gap-4">
-                          <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-center">
-                            <div className="flex items-center gap-1.5 text-purple-600 mb-1">
-                              <Bot className="w-4 h-4" />
-                              <span className="text-[10px] font-mono font-bold uppercase">Latence IA</span>
-                            </div>
-                            <span className="text-xl font-black text-slate-900">2.1x</span>
-                            <span className="text-[10px] text-slate-500 font-medium">Plus rapide via streaming</span>
-                          </div>
-
-                          <div className="relative h-32 rounded-2xl overflow-hidden bg-white border border-slate-200">
-                            <Image
-                              src="/projects/ai_studio.jpg"
-                              alt="AI Studio Snippet"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-              );
-            })()}
-
-            {/* ══════════════════════════════════════════════════════════
-                SHOWCASE 3: QUANTUM ENTERPRISE ERP (.NET & ANGULAR)
-            ══════════════════════════════════════════════════════════ */}
-            {filteredProjects.find(p => p.id === "dotnet-quantum-erp") && (() => {
-              const p = filteredProjects.find(p => p.id === "dotnet-quantum-erp")!;
-              return (
-                <div key={p.id} className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
-                  {/* Left Side: Bento Collage */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="lg:col-span-7 relative"
-                  >
-                    <div className="relative p-6 sm:p-8 rounded-[3rem] bg-slate-50/90 border border-slate-200/90 shadow-lg">
-
-                      {/* Floating Orbital Node with Arrow */}
-                      <button
-                        onClick={() => setSelectedProject(p)}
-                        className="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-white border border-slate-200 shadow-md flex items-center justify-center text-slate-900 hover:scale-110 hover:bg-slate-900 hover:text-white transition z-20"
-                        title="Ouvrir le projet"
-                      >
-                        <ArrowUpRight className="w-5 h-5" />
-                      </button>
-
-                      <div className="grid grid-cols-12 gap-4 items-stretch">
-                        <div className="col-span-12 relative h-64 sm:h-80 rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-sm cursor-pointer group" onClick={() => setSelectedProject(p)}>
-                          <Image
-                            src="/projects/dotnet_erp.jpg"
-                            alt="Quantum Enterprise ERP"
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-700"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
-                          <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white">
-                            <span className="text-xs font-mono font-bold bg-slate-900/80 px-3 py-1 rounded-full backdrop-blur-xs">
-                              ASP.NET Core 8 + Angular 17
-                            </span>
-                            <span className="text-xs font-mono underline">Architecture →</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Right Side: Description */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="lg:col-span-5 space-y-6"
-                  >
-                    <div>
-                      <span className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400">
-                        {p.category}
-                      </span>
-                      <h3 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-1">
-                        {p.title}
-                      </h3>
-                    </div>
-
-                    <div className="flex flex-wrap gap-2">
-                      {p.tags.map((tag) => (
-                        <span key={tag} className="pill-tag">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <p className="text-sm sm:text-base leading-relaxed text-slate-600 font-medium">
-                      Système de supervision et de gestion des flux d&apos;entreprise bâti avec ASP.NET Core 8 Web API, Angular 17, PostgreSQL et graphiques de télémétrie en temps réel.
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-3 pt-2">
-                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                        <div className="text-lg font-black text-slate-900">99.98%</div>
-                        <div className="text-[10px] font-mono uppercase text-slate-500">Disponibilité</div>
-                      </div>
-                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                        <div className="text-lg font-black text-slate-900">14.5k req/s</div>
-                        <div className="text-[10px] font-mono uppercase text-slate-500">Débit API</div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 pt-4">
-                      <button
-                        onClick={() => setSelectedProject(p)}
-                        className="pill-button-dark"
-                      >
-                        <span>Voir l&apos;architecture</span>
-                        <ArrowUpRight className="w-4 h-4" />
-                      </button>
-
-                      {p.githubUrl && (
-                        <a
-                          href={p.githubUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="w-11 h-11 rounded-full border border-slate-200 bg-white hover:bg-slate-100 flex items-center justify-center text-slate-900 transition shadow-xs"
-                          title="Code GitHub"
-                        >
-                          <Github className="w-4 h-4" />
-                        </a>
-                      )}
-                    </div>
-                  </motion.div>
-                </div>
-              );
-            })()}
-
-            {/* Other Projects in Bento Grid */}
-            {filteredProjects.filter(p => !["ecotrack", "ai-prompt-studio", "dotnet-quantum-erp"].includes(p.id)).length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-12">
-                {filteredProjects.filter(p => !["ecotrack", "ai-prompt-studio", "dotnet-quantum-erp"].includes(p.id)).map((p) => (
-                  <div
-                    key={p.id}
-                    onClick={() => setSelectedProject(p)}
-                    className="bento-card-white p-8 cursor-pointer group space-y-6"
-                  >
-                    <div className="flex items-start justify-between">
-                      <span className="pill-tag bg-slate-100 text-slate-800 font-bold">{p.category}</span>
-                      <div className="w-10 h-10 rounded-full border border-slate-200 bg-slate-50 group-hover:bg-slate-900 group-hover:text-white flex items-center justify-center transition">
-                        <ArrowUpRight className="w-4 h-4" />
-                      </div>
-                    </div>
-
-                    <div>
-                      <h4 className="text-2xl font-extrabold text-slate-900 mb-2 group-hover:text-slate-700">
-                        {p.title}
-                      </h4>
-                      <p className="text-xs text-slate-500 font-medium">
-                        {p.subtitle}
-                      </p>
-                    </div>
-
-                    <p className="text-sm text-slate-600 leading-relaxed font-medium">
-                      {p.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {p.tags.map((t) => (
-                        <span key={t} className="text-[11px] font-mono px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-slate-700">
-                          {t}
-                        </span>
-                      ))}
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
+
+                  {/* Tech Pills */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.map(tag => (
+                      <span 
+                        key={tag} 
+                        className="text-[11px] font-mono px-3 py-1 rounded-full bg-slate-100 border border-slate-200/70 text-slate-700 font-semibold"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  {/* Title & Actions Links */}
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-2xl font-black text-slate-900 transition-colors duration-300">
+                      {project.title}
+                    </h3>
+                    <div className="flex items-center gap-2">
+                      <a href={project.github} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-slate-900 transition">
+                        <Github className="w-4 h-4" />
+                      </a>
+                      <a href={project.demo} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-slate-900 transition">
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p className="text-slate-600 text-sm leading-relaxed font-sans mt-auto">
+                  {project.description}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
