@@ -238,6 +238,7 @@ export default function BehanceWhitePortfolio() {
       const Icon = IconComponent;
       return <Icon className="h-4 w-4 sm:h-4.5 sm:w-4.5" />;
     }
+    
     return <Code2 className="h-4 w-4" />;
   };
 
