@@ -203,23 +203,21 @@ export default function SinglePagePortfolio() {
       {/* ══════════════════════════════════════════════════════════════
           1. HERO SECTION — NIKITA KHVATOV DESIGN (WHITE MODE)
       ══════════════════════════════════════════════════════════════ */}
-      <section id="hero" className="relative px-6 sm:px-12 lg:px-20 pt-28 pb-14 overflow-hidden border-b" style={{ borderColor: BORDER }}>
-        {/* Subtle decorative circles */}
-        <div
-          className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full opacity-30"
-          style={{ border: `1px solid ${BORDER}` }}
-        />
-        <div
-          className="pointer-events-none absolute -right-10 top-28 h-40 w-40 rounded-full opacity-20"
-          style={{ border: `1px solid ${BORDER}` }}
-        />
+      <section id="hero" className="relative px-6 sm:px-12 lg:px-20 pt-32 pb-20 overflow-hidden border-b" style={{ borderColor: BORDER }}>
+        {/* Background Decorative Wireframe Circles */}
+        <div className="absolute top-0 right-0 w-full h-full pointer-events-none overflow-hidden z-0">
+          <svg className="absolute -top-[10%] -right-[10%] w-[50vw] h-[50vw] opacity-[0.03]" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="49" fill="none" stroke="#000" strokeWidth="0.2" />
+            <circle cx="50" cy="50" r="35" fill="none" stroke="#000" strokeWidth="0.2" />
+          </svg>
+        </div>
 
         {/* Top bar info */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-wrap items-center justify-between gap-4 mb-6 text-xs font-mono"
+          className="relative z-10 flex flex-wrap items-center justify-between gap-4 mb-8 text-xs font-mono"
           style={{ color: TEXT_MUTED }}
         >
           <div className="flex items-center gap-2.5">
@@ -232,156 +230,112 @@ export default function SinglePagePortfolio() {
           </div>
         </motion.div>
 
-        {/* Line 1: Full-stack + Projects Pill Button */}
-        <div className="relative flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <motion.h1
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="font-black leading-[0.88] tracking-[-0.04em] uppercase select-none"
-            style={{
-              fontSize: "clamp(3.6rem, 11.5vw, 10.5rem)",
-              color: TEXT,
-            }}
-          >
-            Full‑Stack
-          </motion.h1>
-
-          {/* Floating Pill Button "Projets ->" */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.55, delay: 0.2 }}
-            className="mb-4 md:mb-6 flex shrink-0 items-center"
-          >
-            <a
-              href="#projects"
-              className="group flex items-center rounded-full transition-all duration-300 shadow-sm hover:shadow-md"
-            >
-              <span
-                className="rounded-full px-8 py-4 text-sm sm:text-base font-bold uppercase tracking-wider transition-all duration-300 group-hover:px-9"
-                style={{ backgroundColor: TEXT, color: BG }}
-              >
-                Projets
-              </span>
-              <span
-                className="ml-2 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border transition-transform duration-300 group-hover:translate-x-1"
-                style={{ borderColor: TEXT, backgroundColor: BG, color: TEXT }}
-              >
-                <ArrowRight className="h-5 w-5" />
-              </span>
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Line 2: Bio on Left + MASSIVE "Developer" on Right */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 items-end gap-6 mt-1">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.35 }}
-            className="lg:col-span-4 pb-4 lg:pb-12 space-y-3"
-          >
-            <p className="text-sm sm:text-base leading-relaxed" style={{ color: TEXT_MUTED }}>
-              Mon objectif est de concevoir du code{" "}
-              <strong className="font-semibold text-black">maintenable, propre</strong>{" "}
-              et{" "}
-              <strong className="font-semibold text-black">compréhensible</strong>{" "}
-              pour des applications web, mobiles et IA robustes.
-            </p>
-            <div className="flex items-center gap-2 pt-1">
-              <span className="text-xs font-mono px-3 py-1 rounded-full border" style={{ borderColor: BORDER, backgroundColor: SURFACE }}>
-                .NET 8
-              </span>
-              <span className="text-xs font-mono px-3 py-1 rounded-full border" style={{ borderColor: BORDER, backgroundColor: SURFACE }}>
-                Angular
-              </span>
-              <span className="text-xs font-mono px-3 py-1 rounded-full border" style={{ borderColor: BORDER, backgroundColor: SURFACE }}>
-                React Native
-              </span>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="lg:col-span-8 text-left lg:text-right"
-          >
-            <span
-              className="font-black leading-[0.88] tracking-[-0.04em] uppercase block select-none"
+        {/* Main Hero Grid */}
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Left Column: Massive Title */}
+          <div className="lg:col-span-8 flex flex-col justify-between">
+            <motion.h1
+              initial={{ opacity: 0, y: 35 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="font-black leading-[0.88] tracking-[-0.04em] uppercase select-none mb-10"
               style={{
-                fontSize: "clamp(3.6rem, 12.5vw, 11.5rem)",
+                fontSize: "clamp(3.5rem, 11vw, 9rem)",
                 color: TEXT,
               }}
             >
-              Développeuse
-            </span>
+              Full‑Stack<br/>
+              <span style={{ color: "transparent", WebkitTextStroke: `2px ${TEXT}` }}>Développeuse</span>
+            </motion.h1>
+
+            {/* Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.45 }}
+              className="flex flex-wrap items-center gap-4"
+            >
+              <a
+                href="#projects"
+                className="group flex items-center gap-3 transition-all"
+              >
+                <div
+                  className="flex h-14 w-14 items-center justify-center rounded-full border shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md"
+                  style={{ backgroundColor: TEXT, color: BG, borderColor: TEXT }}
+                >
+                  <ArrowRight className="h-6 w-6" />
+                </div>
+                <span className="text-sm font-bold uppercase tracking-widest transition-colors group-hover:text-[#e84c30]" style={{ color: TEXT }}>
+                  Projets
+                </span>
+              </a>
+
+              <a
+                href="/cv"
+                className="group flex items-center gap-3 transition-all ml-4"
+              >
+                <div
+                  className="flex h-14 w-14 items-center justify-center rounded-full border bg-white shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md"
+                  style={{ borderColor: BORDER, color: TEXT }}
+                >
+                  <Download className="h-5 w-5" />
+                </div>
+                <span className="text-sm font-bold uppercase tracking-widest transition-colors group-hover:text-[#2d9c6b]" style={{ color: TEXT }}>
+                  Curriculum
+                </span>
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Right Column: Bio Bento Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="lg:col-span-4"
+          >
+            <div 
+              className="relative p-10 rounded-[3rem] border bg-neutral-100 shadow-xl overflow-hidden group"
+              style={{ borderColor: BORDER }}
+            >
+              {/* Blur accent */}
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#e84c30]/10 rounded-full blur-3xl group-hover:bg-[#e84c30]/20 transition-all duration-700" />
+              
+              <div className="relative z-10 space-y-6">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm border" style={{ borderColor: BORDER }}>
+                  <Terminal className="h-5 w-5" style={{ color: TEXT }} />
+                </div>
+                <p className="text-base leading-relaxed font-medium" style={{ color: TEXT }}>
+                  Mon objectif est de concevoir du code <strong className="font-black">maintenable, propre</strong> et <strong className="font-black">robuste</strong> pour des applications web, mobiles et IA.
+                </p>
+                <div className="flex flex-wrap gap-2 pt-2">
+                  <span className="text-xs font-mono px-4 py-1.5 rounded-full bg-white font-semibold shadow-sm border" style={{ borderColor: BORDER }}>.NET 8</span>
+                  <span className="text-xs font-mono px-4 py-1.5 rounded-full bg-white font-semibold shadow-sm border" style={{ borderColor: BORDER }}>Angular</span>
+                  <span className="text-xs font-mono px-4 py-1.5 rounded-full bg-white font-semibold shadow-sm border" style={{ borderColor: BORDER }}>React Native</span>
+                </div>
+
+                {/* Social Links Mini Bento */}
+                <div className="flex items-center gap-3 pt-6 mt-6 border-t" style={{ borderColor: `${BORDER}80` }}>
+                  <a href={PORTFOLIO_DATA.personal.github} target="_blank" rel="noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full bg-white border hover:scale-110 transition-transform" style={{ borderColor: BORDER }}>
+                    <Github className="h-4 w-4" />
+                  </a>
+                  <a href={PORTFOLIO_DATA.personal.linkedin} target="_blank" rel="noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full bg-white border hover:scale-110 transition-transform" style={{ borderColor: BORDER }}>
+                    <Linkedin className="h-4 w-4 text-[#0077b5]" />
+                  </a>
+                  <a href={`mailto:${PORTFOLIO_DATA.personal.email}`} className="flex h-10 w-10 items-center justify-center rounded-full bg-white border hover:scale-110 transition-transform" style={{ borderColor: BORDER }}>
+                    <Mail className="h-4 w-4" style={{ color: CORAL }} />
+                  </a>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
-
-        {/* Social / Action pills row */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.45 }}
-          className="flex flex-wrap items-center gap-3 pt-10 pb-4"
-        >
-          <a
-            href={PORTFOLIO_DATA.personal.github}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-mono font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
-            style={{ borderColor: BORDER, backgroundColor: SURFACE_CARD }}
-          >
-            <Github className="h-4 w-4" />
-            <span>Github</span>
-          </a>
-
-          <a
-            href={PORTFOLIO_DATA.personal.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-mono font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
-            style={{ borderColor: BORDER, backgroundColor: SURFACE_CARD }}
-          >
-            <Linkedin className="h-4 w-4 text-[#0077b5]" />
-            <span>LinkedIn</span>
-          </a>
-
-          <a
-            href={`mailto:${PORTFOLIO_DATA.personal.email}`}
-            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-mono font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
-            style={{ borderColor: BORDER, backgroundColor: SURFACE_CARD }}
-          >
-            <Mail className="h-4 w-4" style={{ color: CORAL }} />
-            <span>{PORTFOLIO_DATA.personal.email}</span>
-          </a>
-
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-mono font-medium transition-all duration-200 hover:-translate-y-0.5"
-            style={{ borderColor: TEXT, backgroundColor: TEXT, color: BG }}
-          >
-            <Send className="h-3.5 w-3.5" />
-            <span>Me Contacter</span>
-          </a>
-
-          <a
-            href="/cv"
-            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-mono font-medium transition-all duration-200 hover:-translate-y-0.5 ml-auto"
-            style={{ borderColor: BORDER, backgroundColor: SURFACE }}
-          >
-            <Download className="h-3.5 w-3.5" />
-            <span>Télécharger CV</span>
-          </a>
-        </motion.div>
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
           2. TECH INFINITE MARQUEE BAND
       ══════════════════════════════════════════════════════════════ */}
-      <div className="border-b py-3.5 overflow-hidden" style={{ borderColor: BORDER, backgroundColor: SURFACE }}>
+      <div className="border-b py-4 overflow-hidden" style={{ borderColor: BORDER, backgroundColor: SURFACE }}>
         <InfiniteMarquee
           items={PORTFOLIO_DATA.marqueeItems.map(i => ({ text: i.text }))}
           speed="normal"
@@ -390,47 +344,85 @@ export default function SinglePagePortfolio() {
       </div>
 
       {/* ══════════════════════════════════════════════════════════════
-          3. À PROPOS & STATS
+          3. À PROPOS & STATS (Editorial Zigzag)
       ══════════════════════════════════════════════════════════════ */}
-      <section id="about" className="py-20 px-6 sm:px-12 lg:px-20 border-b" style={{ borderColor: BORDER }}>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          <div className="lg:col-span-5 space-y-4">
-            <p className="font-mono text-xs uppercase tracking-[0.2em]" style={{ color: ACID }}>
-              01 / À Propos
-            </p>
-            <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight" style={{ color: TEXT }}>
+      <section id="about" className="relative py-32 px-6 sm:px-12 lg:px-20 border-b overflow-hidden" style={{ borderColor: BORDER }}>
+        <div className="relative z-10 flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
+          
+          {/* Left: Text */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="w-full lg:w-5/12 space-y-6"
+          >
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: ACID }} />
+              <p className="font-mono text-xs uppercase tracking-[0.2em]" style={{ color: ACID }}>
+                01 / À Propos
+              </p>
+            </div>
+            <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight" style={{ color: TEXT }}>
               Ingénierie & Passion
             </h2>
-            <p className="text-sm sm:text-base leading-relaxed" style={{ color: TEXT_MUTED }}>
-              {PORTFOLIO_DATA.personal.bio}
-            </p>
-            <div className="pt-3">
+            <div className="space-y-4">
+              <p className="text-base sm:text-lg leading-relaxed font-medium" style={{ color: TEXT }}>
+                {PORTFOLIO_DATA.personal.bio}
+              </p>
+            </div>
+            <div className="pt-8">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 text-sm font-semibold hover:underline"
-                style={{ color: CORAL }}
+                className="group flex items-center gap-3 transition-all"
               >
-                Discuter d&apos;un projet ou opportunité <ArrowRight className="w-4 h-4" />
+                <div
+                  className="flex h-12 w-12 items-center justify-center rounded-full border shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md"
+                  style={{ backgroundColor: TEXT, color: BG, borderColor: TEXT }}
+                >
+                  <ArrowUpRight className="h-5 w-5" />
+                </div>
+                <span className="text-xs font-bold uppercase tracking-widest transition-colors group-hover:text-[#e84c30]" style={{ color: TEXT }}>
+                  Discuter d&apos;un projet
+                </span>
               </a>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="lg:col-span-7 grid grid-cols-2 gap-4">
-            {PORTFOLIO_DATA.personal.stats.map((stat, idx) => (
-              <div
-                key={stat.label}
-                className="p-6 rounded-2xl border transition hover:-translate-y-1 hover:shadow-sm"
-                style={{ backgroundColor: SURFACE_CARD, borderColor: BORDER }}
-              >
-                <div className="text-3xl sm:text-4xl font-black mb-1" style={{ color: idx % 2 === 0 ? CORAL : ACID }}>
-                  {stat.value}
+          {/* Right: Stats Bento */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7 }}
+            className="w-full lg:w-7/12"
+          >
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+              {PORTFOLIO_DATA.personal.stats.map((stat, idx) => (
+                <div
+                  key={stat.label}
+                  className="group relative p-8 sm:p-10 rounded-[2rem] sm:rounded-[3rem] border bg-white shadow-md hover:shadow-xl transition-all duration-500 overflow-hidden"
+                  style={{ borderColor: BORDER }}
+                >
+                  <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 ${idx % 2 === 0 ? 'bg-[#e84c30]/15' : 'bg-[#2d9c6b]/15'}`} />
+                  
+                  <div className="relative z-10 flex flex-col justify-between h-full space-y-8">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full border bg-neutral-50 shadow-sm" style={{ borderColor: BORDER }}>
+                      <Sparkles className="h-5 w-5" style={{ color: idx % 2 === 0 ? CORAL : ACID }} />
+                    </div>
+                    <div>
+                      <div className="text-5xl sm:text-6xl font-black tracking-tighter mb-2" style={{ color: TEXT }}>
+                        {stat.value}
+                      </div>
+                      <div className="text-sm font-mono font-semibold uppercase tracking-wider" style={{ color: TEXT_MUTED }}>
+                        {stat.label}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-xs font-mono leading-tight" style={{ color: TEXT_MUTED }}>
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -438,90 +430,99 @@ export default function SinglePagePortfolio() {
           4. BOÎTE À OUTILS — 3 CARTES PAR LIGNE
              (Langages, Frameworks, SGBD, Design, DevOps, AI)
       ══════════════════════════════════════════════════════════════ */}
-      <section id="skills" className="py-20 px-6 sm:px-12 lg:px-20 border-b" style={{ borderColor: BORDER }}>
-        <div className="max-w-3xl mb-14 space-y-3">
-          <p className="font-mono text-xs uppercase tracking-[0.2em]" style={{ color: CORAL }}>
-            02 / Compétences & Technologies
-          </p>
+      <section id="skills" className="relative py-32 px-6 sm:px-12 lg:px-20 border-b overflow-hidden" style={{ borderColor: BORDER }}>
+        <div className="relative z-10 max-w-3xl mb-16 space-y-4">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: CORAL }} />
+            <p className="font-mono text-xs uppercase tracking-[0.2em]" style={{ color: CORAL }}>
+              02 / Compétences & Technologies
+            </p>
+          </div>
           <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight" style={{ color: TEXT }}>
             Boîte à Outils
           </h2>
-          <p className="text-sm leading-relaxed" style={{ color: TEXT_MUTED }}>
+          <p className="text-base leading-relaxed font-medium" style={{ color: TEXT_MUTED }}>
             6 catégories structurées regroupant tous mes langages, frameworks, bases de données, outils de design, DevOps et IA.
           </p>
         </div>
 
         {/* 3 Cards per row grid (grid-cols-1 md:grid-cols-2 lg:grid-cols-3) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {SKILL_GROUPS_6.map((group, groupIdx) => {
             const GroupIcon = group.icon;
             return (
               <motion.div
                 key={group.title}
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: groupIdx * 0.06 }}
-                className="flex flex-col rounded-3xl border p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-                style={{ backgroundColor: SURFACE_CARD, borderColor: BORDER }}
+                transition={{ duration: 0.5, delay: groupIdx * 0.1, type: "spring", stiffness: 100 }}
+                className="group relative flex flex-col rounded-[3rem] border p-8 sm:p-10 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl overflow-hidden bg-white"
+                style={{ borderColor: BORDER }}
               >
+                {/* Decorative Hover Glow */}
+                <div 
+                  className="absolute -top-20 -right-20 w-64 h-64 rounded-full blur-[3rem] opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none" 
+                  style={{ backgroundColor: group.color }}
+                />
+
                 {/* Vertical Card Header */}
-                <div className="pb-5 border-b mb-5" style={{ borderColor: BORDER }}>
-                  <div className="flex items-center justify-between mb-3">
+                <div className="relative z-10 pb-6 border-b mb-6" style={{ borderColor: `${BORDER}80` }}>
+                  <div className="flex items-start justify-between mb-4">
                     <div
-                      className="flex h-11 w-11 items-center justify-center rounded-2xl"
+                      className="flex h-14 w-14 items-center justify-center rounded-2xl shadow-sm transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6"
                       style={{ backgroundColor: `${group.color}15`, color: group.color }}
                     >
-                      <GroupIcon className="h-5 w-5" />
+                      <GroupIcon className="h-6 w-6" />
                     </div>
                     <span
-                      className="font-mono text-xs font-bold uppercase px-3 py-1 rounded-full border"
+                      className="font-mono text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border shadow-sm"
                       style={{ borderColor: BORDER, backgroundColor: SURFACE, color: TEXT_MUTED }}
                     >
                       {group.skills.length} techs
                     </span>
                   </div>
 
-                  <h3 className="font-black text-xl uppercase tracking-tight" style={{ color: TEXT }}>
+                  <h3 className="font-black text-2xl uppercase tracking-tight group-hover:text-black transition-colors" style={{ color: TEXT }}>
                     {group.title}
                   </h3>
-                  <p className="text-xs mt-1.5 leading-relaxed" style={{ color: TEXT_MUTED }}>
+                  <p className="text-sm mt-2 leading-relaxed font-medium" style={{ color: TEXT_MUTED }}>
                     {group.description}
                   </p>
                 </div>
 
                 {/* Vertical List of Skills inside the Card */}
-                <div className="space-y-3.5 flex-grow">
+                <div className="relative z-10 space-y-4 flex-grow">
                   {group.skills.map((skill) => (
                     <div
                       key={skill.name}
-                      className="group/item flex flex-col gap-1.5 py-1 transition-all"
+                      className="group/item flex flex-col gap-2 py-1 transition-all"
                     >
                       {/* Top: Icon + Name + Percentage */}
                       <div className="flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="flex items-center gap-3 min-w-0">
                           <div
-                            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-transform duration-200 group-hover/item:scale-110"
-                            style={{ backgroundColor: skill.bg, color: skill.color }}
+                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border shadow-sm transition-transform duration-300 group-hover/item:scale-110 group-hover/item:rotate-3"
+                            style={{ backgroundColor: skill.bg, color: skill.color, borderColor: BORDER }}
                           >
                             {renderSkillIcon(skill.icon)}
                           </div>
-                          <span className="font-semibold text-xs truncate group-hover/item:text-black transition" style={{ color: TEXT }}>
+                          <span className="font-bold text-sm truncate group-hover/item:text-black transition-colors" style={{ color: TEXT }}>
                             {skill.name}
                           </span>
                         </div>
-                        <span className="font-mono text-[11px] font-bold shrink-0" style={{ color: skill.color }}>
+                        <span className="font-mono text-xs font-black shrink-0" style={{ color: skill.color }}>
                           {skill.level}%
                         </span>
                       </div>
 
                       {/* Progress Bar */}
-                      <div className="h-1.5 w-full rounded-full bg-neutral-100 overflow-hidden">
+                      <div className="h-2 w-full rounded-full bg-neutral-100 overflow-hidden shadow-inner">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${skill.level}%` }}
                           viewport={{ once: true }}
-                          transition={{ duration: 0.8, ease: "easeOut" }}
+                          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                           className="h-full rounded-full"
                           style={{ backgroundColor: skill.color }}
                         />
@@ -729,73 +730,95 @@ export default function SinglePagePortfolio() {
       {/* ══════════════════════════════════════════════════════════════
           6. EXPÉRIENCES, FORMATION & CENTRES D'INTÉRÊT
       ══════════════════════════════════════════════════════════════ */}
-      <section id="experience" className="py-20 px-6 sm:px-12 lg:px-20 border-b" style={{ borderColor: BORDER }}>
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <section id="experience" className="relative py-32 px-6 sm:px-12 lg:px-20 border-b overflow-hidden" style={{ borderColor: BORDER }}>
+        <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6 mb-24">
           <div className="space-y-3">
-            <p className="font-mono text-xs uppercase tracking-[0.2em]" style={{ color: CORAL }}>
-              04 / Parcours & Expériences
-            </p>
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: CORAL }} />
+              <p className="font-mono text-xs uppercase tracking-[0.2em]" style={{ color: CORAL }}>
+                04 / Parcours & Expériences
+              </p>
+            </div>
             <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight" style={{ color: TEXT }}>
               Expériences
             </h2>
           </div>
           <a
             href="/cv"
-            className="inline-flex items-center gap-2 text-sm font-semibold hover:underline"
-            style={{ color: TEXT }}
+            className="group flex items-center gap-3 transition-all"
           >
-            <span>Consulter le CV complet</span>
-            <ArrowRight className="h-4 w-4" />
+            <span className="text-xs font-bold uppercase tracking-widest transition-colors group-hover:text-[#e84c30]" style={{ color: TEXT }}>
+              Consulter le CV complet
+            </span>
+            <div
+              className="flex h-12 w-12 items-center justify-center rounded-full border shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md"
+              style={{ backgroundColor: TEXT, color: BG, borderColor: TEXT }}
+            >
+              <ArrowRight className="h-5 w-5" />
+            </div>
           </a>
         </div>
 
-        {/* Experience List */}
-        <div className="divide-y" style={{ borderColor: BORDER }}>
+        {/* Editorial Timeline Experience List */}
+        <div className="relative z-10 flex flex-col gap-12">
           {PORTFOLIO_DATA.experiences.map((exp, idx) => (
             <motion.div
               key={exp.id}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.08 }}
-              className="group py-8 transition-all hover:pl-2"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="relative p-8 sm:p-12 rounded-[3rem] border bg-white shadow-sm overflow-hidden"
+              style={{ borderColor: BORDER }}
             >
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-3">
-                <div className="flex items-start gap-4">
-                  <span className="font-mono text-sm font-bold shrink-0 pt-0.5" style={{ color: CORAL }}>
-                    0{idx + 1}
-                  </span>
+              {/* Decorative Blur Background on Hover */}
+              <div 
+                className={`absolute -top-32 ${idx % 2 === 0 ? '-right-32' : '-left-32'} w-96 h-96 rounded-full blur-[4rem] opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none`}
+                style={{ backgroundColor: idx % 2 === 0 ? CORAL : ACID }}
+              />
+
+              <div className="relative z-10 flex flex-col lg:flex-row gap-8 lg:gap-16 items-start lg:items-center">
+                {/* Left side: Timeline info & Title */}
+                <div className="w-full lg:w-1/3 flex flex-col gap-4 border-b lg:border-b-0 lg:border-r pb-6 lg:pb-0 lg:pr-8" style={{ borderColor: `${BORDER}60` }}>
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full border bg-neutral-50 shadow-sm font-black font-mono text-xs" style={{ borderColor: BORDER, color: idx % 2 === 0 ? CORAL : ACID }}>
+                      0{idx + 1}
+                    </span>
+                    <span className="font-mono text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border shadow-sm bg-white" style={{ borderColor: BORDER, color: TEXT }}>
+                      {exp.period}
+                    </span>
+                  </div>
+                  
                   <div>
-                    <h3 className="text-xl sm:text-2xl font-bold" style={{ color: TEXT }}>
+                    <h3 className="text-2xl sm:text-3xl font-black tracking-tight mb-2" style={{ color: TEXT }}>
                       {exp.role}
                     </h3>
-                    <p className="text-sm font-mono mt-0.5" style={{ color: TEXT_MUTED }}>
-                      {exp.company} · {exp.location}
-                    </p>
+                    <div className="flex flex-wrap items-center gap-2 text-sm font-mono font-bold uppercase tracking-wider" style={{ color: TEXT_MUTED }}>
+                      <span>{exp.company}</span>
+                      <span className="h-1 w-1 rounded-full" style={{ backgroundColor: TEXT_MUTED }} />
+                      <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{exp.location}</span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 shrink-0">
-                  <span className="px-3 py-1 rounded-full text-xs font-mono border" style={{ borderColor: BORDER, backgroundColor: SURFACE }}>
-                    {exp.period}
-                  </span>
+
+                {/* Right side: Description & Tech */}
+                <div className="w-full lg:w-2/3 space-y-6">
+                  <p className="text-base leading-relaxed font-medium" style={{ color: TEXT_MUTED }}>
+                    {exp.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2">
+                    {exp.technologies.map((t) => (
+                      <span
+                        key={t}
+                        className="px-4 py-1.5 rounded-full text-[11px] font-mono font-bold shadow-sm transition-colors group-hover:bg-neutral-50"
+                        style={{ backgroundColor: SURFACE_CARD, color: TEXT, border: `1px solid ${BORDER}` }}
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              <p className="text-sm leading-relaxed max-w-3xl pl-9" style={{ color: TEXT_MUTED }}>
-                {exp.description}
-              </p>
-
-              {/* Technologies */}
-              <div className="flex flex-wrap gap-1.5 pl-9 pt-4">
-                {exp.technologies.map((t) => (
-                  <span
-                    key={t}
-                    className="px-2 py-0.5 rounded text-[11px] font-mono"
-                    style={{ backgroundColor: SURFACE, color: TEXT, border: `1px solid ${BORDER}` }}
-                  >
-                    {t}
-                  </span>
-                ))}
               </div>
             </motion.div>
           ))}
@@ -821,9 +844,8 @@ export default function SinglePagePortfolio() {
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              whileHover={{ y: -8, scale: 1.02 }}
               transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-              className="group relative p-8 rounded-[2rem] overflow-hidden border bg-white shadow-sm hover:shadow-2xl transition-shadow"
+              className="relative p-8 rounded-[2rem] overflow-hidden border bg-white shadow-sm"
               style={{ borderColor: BORDER }}
             >
               {/* Animated Gradient Background on Hover */}
@@ -864,9 +886,8 @@ export default function SinglePagePortfolio() {
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              whileHover={{ y: -8, scale: 1.02 }}
               transition={{ duration: 0.5, delay: 0.1, type: "spring", stiffness: 100 }}
-              className="group relative p-8 rounded-[2rem] overflow-hidden border bg-white shadow-sm hover:shadow-2xl transition-shadow"
+              className="relative p-8 rounded-[2rem] overflow-hidden border bg-white shadow-sm"
               style={{ borderColor: BORDER }}
             >
               {/* Animated Gradient Background on Hover */}
@@ -921,9 +942,8 @@ export default function SinglePagePortfolio() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.4, type: "spring", stiffness: 120 }}
-              className="group flex flex-col sm:flex-row items-center sm:items-start gap-6 p-8 rounded-[2rem] border bg-white shadow-sm hover:shadow-xl transition-all cursor-default overflow-hidden relative"
+              className="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-8 rounded-[2rem] border bg-white shadow-sm overflow-hidden relative"
               style={{ borderColor: BORDER }}
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#e84c30]/5 rounded-full blur-3xl group-hover:bg-[#e84c30]/20 transition-all duration-700" />
@@ -960,9 +980,8 @@ export default function SinglePagePortfolio() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 120 }}
-              className="group flex flex-col sm:flex-row items-center sm:items-start gap-6 p-8 rounded-[2rem] border bg-white shadow-sm hover:shadow-xl transition-all cursor-default overflow-hidden relative"
+              className="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-8 rounded-[2rem] border bg-white shadow-sm overflow-hidden relative"
               style={{ borderColor: BORDER }}
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#2d9c6b]/5 rounded-full blur-3xl group-hover:bg-[#2d9c6b]/20 transition-all duration-700" />
@@ -1000,57 +1019,93 @@ export default function SinglePagePortfolio() {
       {/* ══════════════════════════════════════════════════════════════
           7. FORMULAIRE DE CONTACT
       ══════════════════════════════════════════════════════════════ */}
-      <section id="contact" className="py-24 px-6 sm:px-12 lg:px-20" style={{ backgroundColor: SURFACE }}>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <section id="contact" className="relative py-32 px-6 sm:px-12 lg:px-20 overflow-hidden" style={{ backgroundColor: BG }}>
+        <div className="absolute inset-0 z-0">
+          <svg className="absolute -bottom-[20%] -left-[10%] w-[50vw] h-[50vw] opacity-[0.02]" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="49" fill="none" stroke="#000" strokeWidth="0.2" />
+          </svg>
+        </div>
+
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
           {/* Left contact info */}
-          <div className="lg:col-span-5 space-y-6">
-            <p className="font-mono text-xs uppercase tracking-[0.2em]" style={{ color: ACID }}>
-              05 / Contact
-            </p>
-            <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight leading-none" style={{ color: TEXT }}>
-              Travaillons<br />
-              <span style={{ color: CORAL }}>Ensemble</span>
-            </h2>
-            <p className="text-sm leading-relaxed" style={{ color: TEXT_MUTED }}>
-              Disponible pour opportunités d&apos;emploi, stages PFE, missions freelance ou projets innovants. Envoyez-moi un message direct via le formulaire.
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-5 space-y-8"
+          >
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: ACID }} />
+                <p className="font-mono text-xs uppercase tracking-[0.2em]" style={{ color: ACID }}>
+                  05 / Contact
+                </p>
+              </div>
+              <h2 className="text-5xl sm:text-7xl font-black uppercase tracking-tight leading-[0.9]" style={{ color: TEXT }}>
+                Travaillons<br />
+                <span style={{ color: "transparent", WebkitTextStroke: `2px ${TEXT}` }}>Ensemble</span>
+              </h2>
+            </div>
+            
+            <p className="text-base leading-relaxed font-medium max-w-sm" style={{ color: TEXT_MUTED }}>
+              Disponible pour des opportunités d&apos;emploi, stages PFE, missions freelance ou projets innovants. 
             </p>
 
-            <div className="space-y-4 pt-4">
+            <div className="space-y-6 pt-4">
               <a
                 href={`mailto:${PORTFOLIO_DATA.personal.email}`}
-                className="flex items-center gap-3 text-sm font-medium hover:text-[#e84c30] transition"
+                className="group flex items-center gap-4 transition-all"
               >
-                <div className="h-10 w-10 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: BORDER }}>
-                  <Mail className="h-4 w-4" style={{ color: CORAL }} />
+                <div className="flex h-14 w-14 items-center justify-center rounded-full border shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md bg-white" style={{ borderColor: BORDER }}>
+                  <Mail className="h-5 w-5" style={{ color: CORAL }} />
                 </div>
-                <span>{PORTFOLIO_DATA.personal.email}</span>
+                <div>
+                  <div className="text-[10px] font-mono font-bold uppercase tracking-widest" style={{ color: TEXT_MUTED }}>Email</div>
+                  <div className="text-sm font-bold mt-0.5 group-hover:text-[#e84c30] transition-colors" style={{ color: TEXT }}>{PORTFOLIO_DATA.personal.email}</div>
+                </div>
               </a>
 
               <a
                 href={`tel:${PORTFOLIO_DATA.personal.phone}`}
-                className="flex items-center gap-3 text-sm font-medium hover:text-[#e84c30] transition"
+                className="group flex items-center gap-4 transition-all"
               >
-                <div className="h-10 w-10 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: BORDER }}>
-                  <Phone className="h-4 w-4" style={{ color: ACID }} />
+                <div className="flex h-14 w-14 items-center justify-center rounded-full border shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md bg-white" style={{ borderColor: BORDER }}>
+                  <Phone className="h-5 w-5" style={{ color: ACID }} />
                 </div>
-                <span>{PORTFOLIO_DATA.personal.phone}</span>
+                <div>
+                  <div className="text-[10px] font-mono font-bold uppercase tracking-widest" style={{ color: TEXT_MUTED }}>Téléphone</div>
+                  <div className="text-sm font-bold mt-0.5 group-hover:text-[#2d9c6b] transition-colors" style={{ color: TEXT }}>{PORTFOLIO_DATA.personal.phone}</div>
+                </div>
               </a>
 
-              <div className="flex items-center gap-3 text-sm" style={{ color: TEXT_MUTED }}>
-                <div className="h-10 w-10 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: BORDER }}>
-                  <MapPin className="h-4 w-4 text-neutral-500" />
+              <div className="group flex items-center gap-4 transition-all cursor-default">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full border shadow-sm bg-white" style={{ borderColor: BORDER }}>
+                  <MapPin className="h-5 w-5 text-neutral-500" />
                 </div>
-                <span>{PORTFOLIO_DATA.personal.location}</span>
+                <div>
+                  <div className="text-[10px] font-mono font-bold uppercase tracking-widest" style={{ color: TEXT_MUTED }}>Localisation</div>
+                  <div className="text-sm font-bold mt-0.5" style={{ color: TEXT }}>{PORTFOLIO_DATA.personal.location}</div>
+                </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right contact form card */}
-          <div className="lg:col-span-7">
-            <div className="p-8 sm:p-10 rounded-3xl border shadow-sm" style={{ backgroundColor: BG, borderColor: BORDER }}>
-              <ContactForm />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7 }}
+            className="lg:col-span-7"
+          >
+            <div className="relative p-8 sm:p-12 rounded-[3rem] border bg-white shadow-xl overflow-hidden group" style={{ borderColor: BORDER }}>
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#e84c30]/10 rounded-full blur-3xl group-hover:bg-[#e84c30]/20 transition-all duration-700 pointer-events-none" />
+              <div className="relative z-10">
+                <ContactForm />
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
